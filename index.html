@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Todos Goals</title>
+  <title>My Todo Goals</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.2/redux.min.js"></script>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.17.6/babel.min.js"></script>
 </head>
 <body>
   <div>
@@ -22,6 +25,10 @@
     <button id="goalButton">Add Goal</button>
     <ul id="goals"></ul>
   </div>
+
+  <hr />
+
+  <div id="app"></div>
 
   <script type="text/javascript">
     function generateId() {
@@ -216,6 +223,45 @@
 
       document.getElementById('goals').appendChild(node)
     }
+  </script>
+
+  <script type="text/babel">
+    const List = (props) => {
+      return (
+        <ul>
+          <li>LIST</li>
+        </ul>
+      )
+    }
+
+    const Todos = () => {
+      return (
+        <div>
+          TODOS
+          <List />
+        </div>
+      )
+    }
+
+    const Goals = () => {
+      return (
+        <div>
+          GOALS
+          <List />
+        </div>
+      )
+    }
+
+    const App = () => {
+      return (
+        <div>
+          <Todos />
+          <Goals />
+        </div>
+      )
+    }
+
+    ReactDOM.render(<App />, document.getElementById("app"))
   </script>
 </body>
 </html>

@@ -95,4 +95,8 @@ const rootReducer = combineReducers({
 
 export default rootReducer;
 
+const store = Redux.createStore( <reducer-function>, <middleware-functions> )
+
+applyMiddleware(...middlewares)
+
 

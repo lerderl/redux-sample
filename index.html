@@ -107,7 +107,8 @@
       }
     }
 
-    function checkAndDispatch(store, action) {
+    // Using middleware
+    const checker = store => next => action => {
       if (action.type === ADD_TODO && action.todo.name.toLowerCase().includes('bitcoin')) {
         return alert("Nope. Bad idea.")
       }
@@ -116,10 +117,10 @@
         return alert("Nope. Bad idea.")
       }
 
-      return store.dispatch(action)
+      return next(action)
     }
 
-    const store = Redux.createStore(Redux.combineReducers({todos, goals}));
+    const store = Redux.createStore(Redux.combineReducers({todos, goals}), Redux.applyMiddleware(checker));
 
     store.subscribe(() => {
       // console.log('The new state is: ', store.getState());
@@ -138,7 +139,7 @@
       const name = input.value
       input.value = ''
 
-      checkAndDispatch(store, addTodoAction({
+      store.dispatch(addTodoAction({
         name,
         complete: false,
         id: generateId()
@@ -150,7 +151,7 @@
       const name = input.value
       input.value = ''
 
-      checkAndDispatch(store, addGoalAction({
+      store.dispatch(addGoalAction({
         name,
         id: generateId()
       }))
@@ -172,12 +173,12 @@
       const node = document.createElement('li')
       const text = document.createTextNode(todo.name)
       
-      const removeButton = createRemoveButton(() => {checkAndDispatch(store, removeTodoAction(todo.id))})
+      const removeButton = createRemoveButton(() => {store.dispatch(removeTodoAction(todo.id))})
 
       node.appendChild(text)
       node.appendChild(removeButton)
       node.style.textDecoration = todo.complete ? 'line-through' : 'none'
-      node.addEventListener('click', () => {checkAndDispatch(store, toggleTodoAction(todo.id))})
+      node.addEventListener('click', () => {store.dispatch(toggleTodoAction(todo.id))})
 
       document.getElementById('todos').appendChild(node)
     }
@@ -186,7 +187,7 @@
       const node = document.createElement('li')
       const text = document.createTextNode(goal.name)
 
-      const removeButton = createRemoveButton(() => {checkAndDispatch(store, removeGoalAction(goal.id))})
+      const removeButton = createRemoveButton(() => {store.dispatch(removeGoalAction(goal.id))})
 
       node.appendChild(text)
       node.appendChild(removeButton)

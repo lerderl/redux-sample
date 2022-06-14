@@ -332,9 +332,7 @@
         })
       }, [])
 
-      const { loading } = props.store.getState()
-
-      if (loading === true) {
+      if (props.loading === true) {
         return <h3>Loading...</h3>;
       }
 
@@ -346,15 +344,9 @@
       )
     }
 
-    const ConnectedApp = () => {
-      return (
-        <Context.Consumer>
-          {store => {
-            return <App store={store} />;
-          }}
-        </Context.Consumer>
-      );
-    };
+    const ConnectedApp = connect(state => ({
+      loading: state.loading
+    }))(App);
 
     const Context = React.createContext();
 

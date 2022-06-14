@@ -138,6 +138,14 @@
       }
     }
 
+    function handleInitialData() {
+      return dispatch => {
+        Promise.all([API.fetchTodos(), API.fetchGoals()]).then(([todos, goals]) => {
+          dispatch(receiveDataAction(todos, goals))
+        });
+      }
+    }
+
     // 3
     // Reducer function
     function todos (state = [], action) {
@@ -293,9 +301,7 @@
       const [value, setValue] = React.useState(0)
 
       React.useEffect(() => {
-        Promise.all([API.fetchTodos(), API.fetchGoals()]).then(([todos, goals]) => {
-          props.store.dispatch(receiveDataAction(todos, goals))
-        });
+        props.store.dispatch(handleInitialData())
 
         props.store.subscribe(() => {
           setValue(value => value + 1)

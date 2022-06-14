@@ -11,6 +11,7 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.17.6/babel.min.js"></script>
   <script src="https://tylermcginnis.com/goals-todos-api/index.js"></script>
+  <script src="https://unpkg.com/redux-thunk@2.2.0/dist/redux-thunk.min.js"></script>
 </head>
 <body>
   <div id="app"></div>
@@ -72,6 +73,17 @@
         type: RECEIVE_DATA,
         todos,
         goals
+      }
+    }
+
+    function handleDeleteTodo(todo) {
+      return (dispatch) => {
+        dispatch(removeTodoAction(todo.id))
+
+        return API.deleteTodo(todo.id).catch(() => {
+          props.store.dispatch(addTodoAction(todo))
+          alert("An error occurred. Try again.")
+        })
       }
     }
 
@@ -147,7 +159,9 @@
       return result
     }
 
-    const store = Redux.createStore(Redux.combineReducers({todos, goals, loading}), Redux.applyMiddleware(checker, logger  ));
+    const store = Redux.createStore(
+      Redux.combineReducers({todos, goals, loading}), Redux.applyMiddleware(ReduxThunk.default, checker, logger)
+    );
   </script>
 
   <script type="text/babel">
@@ -179,12 +193,13 @@
       }
 
       const removeItem = todo => {
-        props.store.dispatch(removeTodoAction(todo.id))
+        props.store.dispatch(handleDeleteTodo(todo))
+        // props.store.dispatch(removeTodoAction(todo.id))
 
-        return API.deleteTodo(todo.id).catch(() => {
-          props.store.dispatch(addTodoAction(todo))
-          alert("An error occurred. Try again.")
-        })
+        // return API.deleteTodo(todo.id).catch(() => {
+        //   props.store.dispatch(addTodoAction(todo))
+        //   alert("An error occurred. Try again.")
+        // })
       }
 
       const toggleItem = id => {

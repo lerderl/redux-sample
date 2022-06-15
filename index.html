@@ -269,17 +269,9 @@
       )
     }
 
-    const ConnectedTodos = () => {
-      return (
-        <Context.Consumer>
-          {store => {
-            const { todos } = store.getState();
-
-            return <Todos todos={todos} dispatch={store.dispatch} />
-          }}
-        </Context.Consumer>
-      );
-    };
+    const ConnectedTodos = connect(state => ({
+      todos: state.todos
+    }))(Todos);
 
     const Goals = (props) => {
       const inputRef = React.useRef()
@@ -308,28 +300,15 @@
         </div>
       )
     }
-    
-    const ConnectedGoals = () => {
-      return (
-        <Context.Consumer>
-          {store => {
-            const { goals } = store.getState();
 
-            return <Goals goals={goals} dispatch={store.dispatch} />
-          }}
-        </Context.Consumer>
-      );
-    };
+    const ConnectedGoals = connect(state => ({
+      goals: state.goals
+    }))(Goals);
 
     const App = (props) => {
-      const [value, setValue] = React.useState(0)
 
       React.useEffect(() => {
-        props.store.dispatch(handleInitialData())
-
-        props.store.subscribe(() => {
-          setValue(value => value + 1)
-        })
+        props.dispatch(handleInitialData())
       }, [])
 
       if (props.loading === true) {

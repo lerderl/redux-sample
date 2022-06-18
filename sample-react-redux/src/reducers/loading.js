@@ -1,0 +1,12 @@
+import RECEIVE_DATA from '../actions/shared';
+
+export function loading(state = true, action) {
+  switch (action.type) {
+    case RECEIVE_DATA:
+      return false;
+      // break;
+  
+    default:
+      return state;
+  }
+}

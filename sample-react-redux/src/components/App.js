@@ -1,9 +1,28 @@
-function App() {
+import { useEffect } from "react";
+import { connect } from "react-redux";
+
+import Goals from "./Goals";
+import Todos from "./Todos";
+import { handleInitialData } from "../actions/shared";
+
+const App = (props) => {
+
+  useEffect(() => {
+    props.dispatch(handleInitialData())
+  }, [])
+
+  if (props.loading === true) {
+    return <h3>Loading...</h3>;
+  }
+
   return (
     <div>
-      <h1>Hello World!</h1>
+      <Todos />
+      <Goals />
     </div>
-  );
+  )
 }
 
-export default App;
+export default connect(state => ({
+  loading: state.loading
+}))(App);

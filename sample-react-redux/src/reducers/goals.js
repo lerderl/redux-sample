@@ -1,5 +1,6 @@
 import RECEIVE_DATA from '../actions/shared';
-import { ADD_GOAL, REMOVE_GOAL } from '../actions/goals';
+import ADD_GOAL from '../actions/goals';
+import REMOVE_GOAL from "../actions/goals";
 
 export function goals(state = [], action) {
   switch (action.type) {

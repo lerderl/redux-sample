@@ -1,8 +1,8 @@
 import API from "goals-todos-api";
 
-export const ADD_TODO = 'ADD_TODO'
-export const REMOVE_TODO = 'REMOVE_TODO'
-export const TOGGLE_TODO = 'TOGGLE_TODO'
+const ADD_TODO = 'ADD_TODO'
+const REMOVE_TODO = 'REMOVE_TODO'
+const TOGGLE_TODO = 'TOGGLE_TODO'
 
 // Action Creators
 function addTodo(todo) {
@@ -27,7 +27,7 @@ function toggleTodo(id) {
 }
 
 // Asynchronous action
-export function handleAddTodo(name, cb) {
+const handleAddTodo = (name, cb) => {
   return dispatch => {
     return API.saveTodo(name)
     .then(todo => {
@@ -40,19 +40,19 @@ export function handleAddTodo(name, cb) {
   }
 }
 
-export function handleDeleteTodo(todo) {
+const handleDeleteTodo = (todo) => {
   return (dispatch) => {
     dispatch(removeTodo(todo.id))
 
     return API.deleteTodo(todo.id)
     .catch(() => {
-      dispatch(addTodoAction(todo))
+      dispatch(addTodo(todo))
       alert("An error occurred. Try again.")
     })
   }
 }
 
-export function handleToggle(id) {
+const handleToggle = (id) => {
   return dispatch => {
     dispatch(toggleTodo(id))
 
@@ -63,3 +63,5 @@ export function handleToggle(id) {
     })
   }
 }
+
+export default (ADD_TODO, REMOVE_TODO, TOGGLE_TODO, handleAddTodo, handleDeleteTodo, handleToggle);

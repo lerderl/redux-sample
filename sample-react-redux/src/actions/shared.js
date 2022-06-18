@@ -1,6 +1,6 @@
 import API from "goals-todos-api";
 
-export const RECEIVE_DATA = 'RECEIVE_DATA'
+const RECEIVE_DATA = 'RECEIVE_DATA'
 
 // Action creators
 function receiveData(todos, goals) {
@@ -12,10 +12,12 @@ function receiveData(todos, goals) {
 }
 
 // Asynchronous action
-export function handleInitialData() {
+const handleInitialData = () => {
   return dispatch => {
     Promise.all([API.fetchTodos(), API.fetchGoals()]).then(([todos, goals]) => {
       dispatch(receiveData(todos, goals))
     });
   }
 }
+
+export default (RECEIVE_DATA, handleInitialData);

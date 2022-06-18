@@ -2,7 +2,8 @@ import { useRef } from "react";
 import { connect } from "react-redux";
 
 import List from "./List";
-import { handleAddGoal, handleDeleteGoal } from "../actions/goals";
+import handleAddGoal from "../actions/goals";
+import handleDeleteGoal from "../actions/goals";
 
 const Goals = (props) => {
   const inputRef = useRef()

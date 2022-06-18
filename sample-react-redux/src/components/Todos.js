@@ -2,7 +2,9 @@ import { useRef } from "react";
 import { connect } from "react-redux";
 
 import List from "./List";
-import { handleAddTodo, handleDeleteTodo, handleToggle } from "../actions/todos";
+import handleToggle from "../actions/todos";
+import handleAddTodo from "../actions/todos";
+import handleDeleteTodo from "../actions/todos";
 
 const Todos = (props) => {
   const inputRef = useRef()
